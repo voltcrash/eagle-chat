@@ -15,6 +15,15 @@
     display: flex;
     flex-direction: column;
     color: #e0e0e0;
+    transition: transform 0.3s ease;
+}
+
+.sidebarVisible {
+    transform: translateX(0);
+}
+
+.sidebarHidden {
+    transform: translateX(-100%);
 }
 
 .sidebarHeader {
@@ -35,20 +44,12 @@
     background-color: var(--primary-color);
     margin-right: 10px;
     position: relative;
+    background-image: url('../../../public/images/logo.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.logo:after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background-color: white;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E") no-repeat 50% 50%;
-    mask-size: cover;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
 
 .brandName {
     font-size: 18px;
@@ -117,12 +118,30 @@
     color: #8E8E93;
 }
 
+/* Sidebar toggle button */
+.sidebarToggle {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #252525;
+    color: #e0e0e0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+}
+
 /* Chat Container Styles */
 .chatContainer {
     flex: 1;
     display: flex;
     flex-direction: column;
     background-color: #1E1E1E;
+    position: relative;
 }
 
 .messagesContainer {
@@ -141,7 +160,9 @@
     font-size: 12px;
     border-radius: 16px;
     padding: 4px 12px;
-    margin: 16px 0;
+    margin: 16px auto; /* Centers it */
+    max-width: fit-content; /* Makes it only as wide as its content */
+    text-align: center;
 }
 
 .userGroup {
@@ -149,7 +170,6 @@
     flex-direction: column;
     align-items: flex-end;
     margin-bottom: 16px;
-    max-width: 90%;
     align-self: flex-end;
 }
 
@@ -165,25 +185,6 @@
 .messageContainer {
     margin: 2px 0;
     max-width: 100%;
-}
-
-.userMessage {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px 14px;
-    border-radius: 18px;
-    border-bottom-right-radius: 4px;
-    position: relative;
-    word-wrap: break-word;
-}
-
-.botMessageContainer {
-    background-color: #2D2D2D;
-    color: #e0e0e0;
-    border-radius: 8px;
-    padding: 16px;
-    position: relative;
-    width: 100%;
 }
 
 .messageText {
@@ -265,8 +266,105 @@
 .loadingDots {
     display: flex;
     align-items: center;
+    gap: 5px;
 }
 
 .loadingDots span {
     width: 12px;
-    height: 12px;}
+    height: 12px;
+    background-color: #999;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+/* Delay animations for each dot */
+.loadingDots span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loadingDots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loadingDots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.3;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute;
+        z-index: 5;
+        height: 100vh;
+    }
+
+    .sidebarToggle {
+        display: flex;
+    }
+
+    .chatContainer {
+        padding-top: 50px;
+    }
+
+    .messagesContainer {
+        padding-top: 20px;
+    }
+}
+
+/* Add these styles to your chatbox.module.css file */
+
+.markdownContent {
+    line-height: 1.5;
+}
+
+.emptyStateContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #8E8E93;
+}
+
+.emptyStateIcon {
+    margin-bottom: 16px;
+}
+
+.emptyStateText {
+    font-size: 16px;
+}
+
+/* Improved message styling */
+.botMessageContainer {
+    background-color: #2D2D2D;
+    color: #e0e0e0;
+    border-radius: 18px 18px 18px 4px;
+    padding: 16px 20px;
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.userMessage {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 18px 18px 4px 18px;
+    position: relative;
+    word-wrap: break-word;
+    max-width: 450px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
